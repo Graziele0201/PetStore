@@ -26,7 +26,7 @@ public class Pet {
     }
 
     // Incluir - Create - Post
-    @Test  // identifica o método ou função para o Teste
+    @Test   // identifica o método ou função para o Teste
     public void incluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
@@ -83,5 +83,25 @@ public class Pet {
                         .body("name", is("Snoopy"))
                         .body("status", is("sold"))
                 ;
+    }
+
+    @Test
+    public void excluirPet(){
+        String petId = "9223372000001125817";
+
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .delete(uri + "/" + petId)
+
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("code", is(200))
+                .body("type", is("unknown"))
+                .body("message", is(petId))
+        ;
+
     }
 }
