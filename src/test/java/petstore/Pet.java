@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.contains;
 
@@ -48,6 +47,23 @@ public class Pet {
                 .body("status", is("available"))
                 .body("category.name", is("dog"))
                 .body("tags.name", contains("sta"))
+        ;
+    }
+    @Test
+    public void consultarPet(){
+        String petId = "9223372000001125817";
+
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .get(uri + "/" + petId)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Snoopy"))
+                .body("category.name", is("dog"))
+                .body("status", is("available"))
         ;
     }
 }
